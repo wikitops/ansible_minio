@@ -1,0 +1,19 @@
+---
+
+###
+# MINIO
+###
+
+# Platform
+minio_platform: docker # Or : baremetal
+
+# Access keys
+minio_access_key: wikitops
+minio_secret_key: wikitops
+
+# Ports
+minio_container_port: 9000
+minio_exposed_port: 9090
+
+# Directories
+minio_home: /data/minio

@@ -1,0 +1,29 @@
+---
+
+- name: MINIO ON DOCKER | Create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  with_items:
+    - "{{ minio_home }}/data"
+    - "{{ minio_home }}/config"
+
+- name: MINIO ON DOCKER | Run the container
+  docker_container:
+    state: started
+    name: minio1
+    image: minio/minio
+    recreate: yes
+    tty: yes
+    ports:
+      - "{{ minio_exposed_port }}:{{ minio_container_port }}"
+    volumes:
+      - "{{ minio_home }}/data:/data"
+      - "{{ minio_home }}/config:/root/.minio"
+    command: server /data
+    env:
+      MINIO_ACCESS_KEY: "{{ minio_access_key }}"
+      MINIO_SECRET_KEY: "{{ minio_secret_key }}"
